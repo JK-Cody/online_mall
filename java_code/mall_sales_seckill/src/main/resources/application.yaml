@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: mall-sales-seckill
+
+  cloud:
+    nacos:
+        discovery:
+          server-addr: 127.0.0.1:8848
+    sentinel:
+      transport:
+        # 控制台的端口
+        dashboard: localhost:10000
+        port: 8719
+#        client-ip: localhost
+
+  redis:
+    host: 192.XXX.XXX.XXX
+    port: 6379
+
+  #关闭thymeleaf缓存
+  thymeleaf:
+    cache: false
+
+# 暴露所有监控端点，使得sentinel可以实时监控
+management:
+  endpoints:
+    web:
+      exposure:
+        include=*:
+
+server:
+  port: 8009
+#feign模块流量控制
+feign:
+  sentinel:
+    enabled: true

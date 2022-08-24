@@ -1,0 +1,55 @@
+spring:
+  application:
+    name: mall-sales-order
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.XXX.XXX.XXX:3306/mall_oms?useUnicode=true&allowMultiQueries=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123
+  cloud:
+    nacos:
+        discovery:
+          server-addr: 127.0.0.1:8848
+#    alibaba:
+#      seata:
+#        tx-service-group: my_test_tx_group   #默认名称
+    sentinel:
+      transport:
+        # 控制台的端口
+        dashboard: localhost:10000
+        port: 8719
+
+  redis:
+    host: 192.XXX.XXX.XXX
+    port: 6379
+
+  #关闭thymeleaf缓存
+  thymeleaf:
+    cache: false
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+
+#    设置数据库实体类属性自增
+  global-config:
+    db-config:
+      id-type: auto
+server:
+  port: 8005
+
+# 暴露所有监控端点，使得sentinel可以实时监控
+management:
+  endpoints:
+    web:
+      exposure:
+        include=*:
+#feign模块流量控制
+feign:
+  sentinel:
+    enabled: true
+#线程池配置
+mall:
+  thread:
+    coreSize: 20
+    maxSize: 200
+    keepAliveTime: 10

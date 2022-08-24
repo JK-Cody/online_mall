@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: mall-search-service
+  cloud:
+      nacos:
+        discovery:
+          server-addr: 127.0.0.1:8848
+      sentinel:
+        transport:
+          # 控制台的端口
+          dashboard: localhost:10000
+          port: 8719
+
+  redis:
+    host: 192.168.179.130
+    port: 6379
+  #关闭thymeleaf缓存
+  thymeleaf:
+    cache: false
+server:
+  port: 8006
+
+# 暴露所有监控端点，使得sentinel可以实时监控
+management:
+  endpoints:
+    web:
+      exposure:
+        include=*:
+#feign模块流量控制
+feign:
+  sentinel:
+    enabled: true
+logging:
+    level:
+      com.mall.search_service: debug
+

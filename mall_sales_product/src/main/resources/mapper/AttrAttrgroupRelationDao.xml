@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mall.sales.product.dao.AttrAttrgroupRelationDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.mall.sales.product.entity.AttrAttrgroupRelationEntity" id="attrAttrgroupRelationMap">
+        <result property="id" column="id"/>
+        <result property="attrId" column="attr_id"/>
+        <result property="attrGroupId" column="attr_group_id"/>
+        <result property="attrSort" column="attr_sort"/>
+    </resultMap>
+    <!--    删除方法,item.attrId和 item.attrGroupId的判断-->
+<!--    delete from pms_attr_attrgroup_relation where (attr_id =? and attr_group_id=?) or (attr_id =? and attr_group_id=?) or ...  -->
+    <!--    or前后必须加上空格-->
+    <delete id="deleteBatchEntityByAttrIdAndAttrGroupId">
+        delete from pms_attr_attrgroup_relation where
+        <foreach collection="entities" item="entity" separator=" or " >
+            (attr_id=#{entity.attrId} and attr_group_id=#{entity.attrGroupId})
+        </foreach>
+    </delete>
+
+    <!-- 查询 catalogId对应的所有 attr_id  -->
+    <select id="getAttrIdListByCatalogId" resultType="java.lang.Long">
+        SELECT attr_id FROM `pms_attr` WHERE catalog_id =#{catalogId};
+    </select>
+
+    <!-- 查询组名  -->
+    <resultMap id="getAttrSimpleWithAttrGroup" type="com.mall.sales.product.vo.AttrSimpleWithAttrGroup">
+        <result property="groupName" column="attr_group_name"/>
+        <collection property="attrs" ofType="com.mall.sales.product.vo.AttrSimple">
+            <result property="attrId" column="attr_id"/>
+            <result property="attrName" column="attr_name"/>
+            <result property="attrValue" column="attr_value"/>
+        </collection>
+    </resultMap>
+    <select id="getAttrSimpleWithAttrGroup" resultMap="getAttrSimpleWithAttrGroup">
+        SELECT pms.attr_id,
+               pms.attr_name,
+               pms.attr_value,
+               ag.attr_group_name
+        FROM `pms_attr_attrgroup_relation` atg
+                 LEFT JOIN `pms_attr_group` ag ON ag.attr_group_id = atg.attr_group_id
+                 LEFT JOIN `pms_product_attr_value` pms ON pms.attr_id = atg.attr_id
+        WHERE pms.spu_id=#{spuId};
+    </select>
+
+</mapper>

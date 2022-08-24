@@ -1,0 +1,49 @@
+spring:
+  application:
+    name: mall-sales-member
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.179.130:3306/mall_ums?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123
+  cloud:
+      nacos:
+        discovery:
+          server-addr: 127.0.0.1:8848
+      sentinel:
+        transport:
+          # 控制台的端口
+          dashboard: localhost:10000
+          port: 8719
+  redis:
+    host: 192.168.179.130
+    port: 6379
+  #关闭thymeleaf缓存
+  thymeleaf:
+    cache: false
+  #设定session改为保存到redis
+  session:
+    store-type:
+     redis
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  global-config:
+      db-config:
+        id-type: AUTO
+server:
+  port: 8003
+
+logging:
+  level:
+    com.mall.sales: debug
+#feign模块流量控制
+feign:
+  sentinel:
+    enabled: true
+# 暴露所有监控端点，使得sentinel可以实时监控
+management:
+  endpoints:
+    web:
+      exposure:
+        include=*:

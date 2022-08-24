@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: mall-sales-shop-cart
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+
+    sentinel:
+      transport:
+        # 控制台的端口
+        dashboard: localhost:10000
+        port: 8719
+
+  #    关闭thymeleaf缓存
+  thymeleaf:
+    cache: false
+  redis:
+    host: 192.168.179.130
+    port: 6379
+#    开启缓存类型为redis
+  cache:
+    type:
+      redis
+
+server:
+  port: 8008
+
+# 暴露所有监控端点，使得sentinel可以实时监控
+management:
+  endpoints:
+    web:
+      exposure:
+        include=*:
+#feign模块流量控制
+feign:
+  sentinel:
+    enabled: true
+#线程池配置
+mall:
+  thread:
+     coreSize: 20
+     maxSize: 200
+     keepAliveTime: 10
+
+logging:
+  level:
+     com.mall.sales: debug

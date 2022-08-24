@@ -1,0 +1,38 @@
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+*.iml
+.idea
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+# Project exclude paths
+/mall_auth_service/target/
+/mall_common/target/
+/mall_gateway/target/
+/mall_sales_coupon/target/
+/mall_sales_houseware/target/
+/mall_sales_member/target/
+/mall_sales_order/target/
+/mall_sales_product/target/
+/mall_sales_seckill/target/
+/mall_sales_shop_cart/target/
+/mall_search_service/target/
+/third_party_service/target/
